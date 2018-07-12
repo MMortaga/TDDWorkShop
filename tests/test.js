@@ -60,3 +60,10 @@ test("All functions", function(t) {
   t.equal(sum(sub(4,2),multiply(2,1)), result, "Should return 2+2");
   t.end();
 });
+
+
+test("Division function", function(t) {
+  var result = 20;
+  t.equal(divide(40,2), result, "Should divide numbers properly");
+  t.end();
+});
