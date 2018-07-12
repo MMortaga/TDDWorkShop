@@ -1,64 +1,60 @@
 const test = require('tape');
-const shot = require('shot');
-const router = require('./router');
+const request = require('supertest');
+const app = require('../src/app');
+const functions = require('../public/js/functions.js');
+const { sum, sub, multiply } = functions;
 
+test('Homepage', (t)=>{
+  request(app)
+    .get('/')
+    .expect(200)
+    .end((err, res) => {
+      if(err){
+        t.error(err)
+      }else{
+        t.equal(200, res.status, 'homepage loaded successfully')
+        t.end();
+      }
+    });
+});
 
-test("Initialize", (t)=>  {
-  let num = 2;
-  t.equal(num, 2, "Should return 2");
+test('Error page', (t)=>{
+  request(app)
+    .get('/potato')
+    .expect(404)
+    .end((err, res) => {
+      if(err){
+        t.error(err)
+      }else{
+        t.equal(404, res.status, 'Error page loaded successfully')
+        t.end();
+      }
+    });
+});
+
+test("Sum function", (t)=>  {
+  let result = 22;
+  t.equal(sum(10,12), result, "Should sum numbers properly");
   t.end();
 });
 
-test('blog router',(t)=>{
-  shot.inject(router,{method:'get',url:'/blog'} ,(res)=>{
-    t.equal(res.statusCode,200,'should nreturn 200');
-    var response =JSON.parse(res.payload);
-    console.log(response);
-    t.equal(response.length,3,'should 3')
-    t.end();
-  })
-})
 
-test('Exercise 1 Homepage', (t)=> {
-  shot.inject(router,{method:"get", url:"/"}, (res)=>{
-    t.equal(res.statusCode, 200, "Should respond with statusCode of 200");
-    t.equal(res.payload, "Hello", "Should return \"Hello\" in the payload :D");
-    t.end();
-  });
-});
-
-test("Unknown Pages", (t)=>{
-  shot.inject(router, {method:"get", url:"/elephant"}, res=>{
-    t.equal(res.payload, "Unknown URL", "Should handle unknown pages.");
-    t.end();
-  });
+test("Substraction function", (t)=>  {
+  let result = 5;
+  t.equal(sub(10,5), result, "Should substract numbers properly");
+  t.end();
 });
 
 
-test("Exercise 2 (Blog #1)", t=>{
-  shot.inject(router, {method:"get", url:"/blog"}, res=>{
-    t.equal(res.statusCode, 200, 'should respond with status code of 200');
-    let array = JSON.parse(res.payload);
-    console.log(array);
-    let length= array.length;
-    t.equal(length, 3, 'should return an array with 3 items');
-    t.equal(typeof array[0], "string", "Should contain 3 strings")
-    t.equal(typeof array[1], "string", "Should contain 3 strings")
-    t.equal(typeof array[2], "string", "Should contain 3 strings")
-  })
+test("Multiply function", (t)=>  {
+  let result = 20;
+  t.equal(multiply(10,2), result, "Should multiply numbers properly");
+  t.end();
+});
 
-t.end();
-})
 
-test("Exercise 3 (Blog #2)", t=>{
-  shot.inject(router, {method:"post", url:"/blog"}, res=>{
-    t.equal(res.statusCode, 200, "Should respond with a status code of 200 :D");
-    let obj = JSON.parse(res.payload);
-    console.log("THE OBJECT IS:" , obj);
-    t.equal(obj.hasOwnProperty("password"), true, "should have a key of \"password\"")
-    let key = obj.password;
-    t.equal(key, "potato", "should have a value of \"potato\"")
-  })
-
-t.end();
-})
+test("All functions", (t)=>  {
+  let result = 4;
+  t.equal(sum(sub(4,2),multiply(2,1)), result, "Should return 2+2");
+  t.end();
+});
