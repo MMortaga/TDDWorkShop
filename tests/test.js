@@ -2,7 +2,9 @@ const test = require('tape');
 const request = require('supertest');
 const app = require('../src/app');
 const functions = require('../public/js/functions.js');
-const { sum, sub, multiply } = functions;
+const sum = functions.sum;
+const sub = functions.sub;
+const multiply = functions.multiply;
 
 test('Homepage', (t)=>{
   request(app)
