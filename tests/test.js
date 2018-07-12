@@ -35,28 +35,28 @@ test('Error page', function(t){
 });
 
 test("Sum function", function(t){
-  let result = 22;
+  var result = 22;
   t.equal(sum(10,12), result, "Should sum numbers properly");
   t.end();
 });
 
 
 test("Substraction function", function(t) {
-  let result = 5;
+  var result = 5;
   t.equal(sub(10,5), result, "Should substract numbers properly");
   t.end();
 });
 
 
 test("Multiply function", function(t) {
-  let result = 20;
+  var result = 20;
   t.equal(multiply(10,2), result, "Should multiply numbers properly");
   t.end();
 });
 
 
 test("All functions", function(t) {
-  let result = 4;
+  var result = 4;
   t.equal(sum(sub(4,2),multiply(2,1)), result, "Should return 2+2");
   t.end();
 });
