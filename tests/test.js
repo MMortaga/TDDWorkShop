@@ -5,6 +5,7 @@ const functions = require('../public/js/functions.js');
 const sum = functions.sum;
 const sub = functions.sub;
 const multiply = functions.multiply;
+const divide = functions.divide;
 
 test('Homepage', function(t){
   request(app)
